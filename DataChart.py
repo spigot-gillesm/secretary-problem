@@ -10,15 +10,17 @@ class DataChart:
 
     __attempts: int
 
-    def __init__(self, n: int, attempts: int):
+    __output: str
+
+    def __init__(self, n: int, attempts: int, output: str):
         self.__n = n
         self.__attempts = attempts
+        self.__output = output
 
     def add_data(self, alpha: str, success_rate: float):
         self.__data_pairs[alpha] = success_rate
 
     def plot(self):
-        print(self.__data_pairs)
         # Get the alpha values used. Used to form the x-axis
         alpha_values = list(self.__data_pairs.keys())
         # Get the success rates. Used to form the y-axis
@@ -38,5 +40,5 @@ class DataChart:
             height = bar.get_height()
             subplots.text(x=bar.get_x(), y=(height + 0.01), s=str(success_rates[i]))
 
-        figure.savefig("chart.png")
+        figure.savefig(self.__output)
         plt.close(figure)
