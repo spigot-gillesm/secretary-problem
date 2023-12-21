@@ -1,4 +1,5 @@
 import argparse
+import math
 from typing import List
 
 from CandidateGenerator import CandidateGenerator
@@ -42,14 +43,22 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         prog='Secretary Problem')
     parser.add_argument("-n", "--candidates", type=int, help="The number n of candidates.")
-    parser.add_argument("-a", "--alpha", nargs="+", type= float, help="The list of alpha values.")
-    parser.add_argument("-o", "--output", type=str, default="chart.png",
+    parser.add_argument("-a", "--alpha", nargs="+", type=str, help="The list of alpha values."
+                                                                   " Must be a float or '1/e'")
+    parser.add_argument("-o", "--output", type=str, default="output.png",
                         help="The destination file for the chart. Must have a valid image extension."
                              " Default to 'chart.png'")
     parser.add_argument("--attempts", type=int,
                         help="How many rounds the algorithm will be executed on each set of n candidates for each alpha."
-                             " Increasing this value allows for more accurate results but increase the computation time needed.")
+                             " Increasing this value allows for more accurate results but increase the computation time.")
 
     values = vars(parser.parse_args())
-    print(values["alpha"])
-    main(values["candidates"], values["attempts"], values["alpha"], values["output"])
+    alphas = []
+
+    for value in values["alpha"]:
+        if value == "1/e":
+            alphas.append(1/math.e)
+        else:
+            alphas.append(float(value))
+
+    main(values["candidates"], values["attempts"], alphas, values["output"])
